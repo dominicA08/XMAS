@@ -1,0 +1,224 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    background-color: #0b1726;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    transition: background 0.6s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bg-sky {
+    background: linear-gradient(180deg, #87CEEB 0%, #00BFFF 100%);
+}
+
+.bg-sky-deep {
+    background: linear-gradient(180deg, #87CEEB 0%, #1E90FF 100%);
+}
+
+/* Snow */
+.snow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+.snowflake {
+    position: absolute;
+    top: -10px;
+    font-size: 10px;
+    color: white;
+    animation: fall linear infinite;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 15px rgba(255, 255, 255, 0.6);
+}
+@keyframes fall {
+    0% { transform: translateY(-10px); }
+    100% { transform: translateY(110vh); }
+}
+
+/* Book container */
+.book {
+    position: relative;
+    z-index: 2;
+    perspective: 1600px;
+}
+.sheets.flipbook {
+    position: relative;
+    width: 820px;
+    max-width: 90vw;
+    height: 540px;
+    max-height: 65vh; /* leave space for controls */
+    margin: 0 auto;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+.flipbook .leaf {
+    position: absolute;
+    transform-style: preserve-3d;
+    height: 100%;
+    width: 50%;
+    left: 50%;
+    transition: transform 1s;
+    transform: rotate3d(0, 1, 0, 0deg);
+    transform-origin: left 0px;
+}
+.flipbook .leaf .page {
+    transform-style: preserve-3d;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+}
+.flipbook .leaf .page.front {
+    transform: rotate3d(0, 1, 0, 0deg) translate3d(0, 0, 0.1px);
+}
+.flipbook .leaf .page.back {
+    transform: rotate3d(0, 1, 0, 180deg) translate3d(0, 0, 0.1px);
+}
+
+/* Page styling / readability */
+.page {
+    padding: 24px 32px;
+    background-color: #fdf2e3;
+    backface-visibility: hidden;
+    overflow-y: auto;
+    border-radius: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.24),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+.page.front {
+    border-radius: 0 18px 18px 0;
+}
+.page.back {
+    border-radius: 18px 0 0 18px;
+}
+.page.cover {
+    background: radial-gradient(circle at top left, #ffe9c7 0%, #f3d29b 32%, #c58a3b 100%);
+    color: #3b2710;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-color: #e0b54a;
+    box-shadow:
+        0 22px 40px rgba(0, 0, 0, 0.55),
+        0 0 0 2px rgba(255, 255, 255, 0.8),
+        inset 0 0 40px rgba(255, 255, 255, 0.35);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Christmas minimalist ornaments on the cover */
+.page.cover::before,
+.page.cover::after {
+    content: "";
+    position: absolute;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 18px rgba(255, 255, 255, 0.4);
+}
+.page.cover::before {
+    top: -40px;
+    left: -40px;
+    border-color: #e63946;
+}
+.page.cover::after {
+    bottom: -60px;
+    right: -40px;
+    border-color: #2a9d8f;
+}
+.page p {
+    max-width: 680px;
+    margin: 0 auto 0.85rem auto;
+    line-height: 1.9;
+    letter-spacing: 0.1px;
+    text-align: left;
+    font-size: clamp(0.98rem, 1.2vw, 1.12rem);
+    text-indent: 2em;
+}
+.page h1 {
+    margin: 0 0 10px 0;
+}
+
+/* Typography refinements */
+.page.cover h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(2.6rem, 4.2vw, 3.1rem);
+    letter-spacing: 0.06em;
+    text-transform: none;
+    font-style: italic;
+}
+.page.cover p {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1rem, 1.4vw, 1.15rem);
+    text-indent: 0;
+    font-style: italic;
+}
+
+/* Subtle Christmas border accents per spread */
+.flipbook .leaf:nth-child(odd) .page {
+    border-color: rgba(198, 40, 40, 0.9);
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.22),
+        0 0 0 1px rgba(255, 255, 255, 0.3),
+        inset 0 0 0 1px rgba(198, 40, 40, 0.5);
+}
+.flipbook .leaf:nth-child(even) .page {
+    border-color: rgba(25, 111, 61, 0.9);
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.22),
+        0 0 0 1px rgba(255, 255, 255, 0.3),
+        inset 0 0 0 1px rgba(25, 111, 61, 0.5);
+}
+.flipbook .leaf:last-child .page.back.cover {
+    border-color: #e0b54a;
+}
+
+/* Controls */
+.controls { text-align: center; margin-top: 12px; }
+.controls {
+    position: absolute;
+    bottom: -70px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+.btn {
+    padding: 8px 16px;
+    font-size: 1em;
+    border: none;
+    border-radius: 4px;
+    background: #1E90FF;
+    color: white;
+    cursor: pointer;
+}
+.btn:disabled { opacity: 0.5; cursor: default; }
+
+/* No slide animations; using 3D flip via .sheet.flipped */
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sheets.flipbook { width: 600px; height: 400px; max-height: 60vh; }
+    .page p { max-width: 520px; font-size: clamp(0.95rem, 1.8vw, 1.08rem); }
+    .controls { bottom: -60px; }
+}
+@media (max-width: 480px) {
+    .sheets.flipbook { width: 380px; height: 280px; max-height: 58vh; }
+    .page p { max-width: 340px; font-size: clamp(0.92rem, 2.4vw, 1.06rem); }
+    .controls { bottom: -56px; }
+}
+
